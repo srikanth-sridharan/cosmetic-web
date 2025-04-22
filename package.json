@@ -18,7 +18,7 @@
     "jsonwebtoken": "^9.0.2",
     "locomotive-scroll": "^4.1.4",
     "lucide-react": "^0.484.0",
-    "mongoose": "^8.13.0",
+    "mongoose": "^8.13.2",
     "next": "15.2.4",
     "nookies": "^2.5.2",
     "react": "^19.0.0",

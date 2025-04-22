@@ -49,7 +49,9 @@ export default function ProductCard({ product }: { product: Product }) {
       localStorage.setItem("profileCart", JSON.stringify(updatedCart));
       dispatch(replaceCart(updatedCart));
       window.dispatchEvent(new Event("cartUpdated"));
-    } catch (_err) {
+    } catch (err) {
+      // We are no longer using '_err', so just log the error
+      console.error("Error adding to cart:", err);
       router.push("/login");
     }
   };

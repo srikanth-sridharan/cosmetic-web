@@ -7,7 +7,7 @@ import { useRouter } from "next/navigation";
 import { FaSearch, FaShoppingCart } from "react-icons/fa";
 import "../../styles/globals.css";
 
-const Navbar = ({ products = [] }) => {
+const Navbar = () => {
   const [searchTerm, setSearchTerm] = useState("");
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const router = useRouter();

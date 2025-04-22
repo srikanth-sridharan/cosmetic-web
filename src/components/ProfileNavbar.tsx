@@ -5,6 +5,7 @@ import { useState, useEffect, useRef } from "react";
 import { FaSearch, FaShoppingCart, FaUserCircle } from "react-icons/fa";
 import ProfileSidebar from "./ProfileSidebar";
 import { useRouter } from "next/navigation";
+import Image from "next/image"; // Importing Image from next/image
 
 const ProfileNavbar = ({ onSearch }: { onSearch: (term: string) => void }) => {
   const router = useRouter();
@@ -41,7 +42,7 @@ const ProfileNavbar = ({ onSearch }: { onSearch: (term: string) => void }) => {
         const cartKey = `cart_${email}`;
         const cartString = localStorage.getItem(cartKey);
         const cart = cartString ? JSON.parse(cartString) : [];
-        setProfileCartCount(cart.reduce((acc: number, item: any) => acc + item.quantity, 0));
+        setProfileCartCount(cart.reduce((acc: number, item: { quantity: number }) => acc + item.quantity, 0));
       } catch (err) {
         console.error("Error reading cart", err);
       }
@@ -114,9 +115,12 @@ const ProfileNavbar = ({ onSearch }: { onSearch: (term: string) => void }) => {
     <>
       <nav className="bg-white shadow-md px-3 py-1 flex justify-between items-center sticky top-0 z-10">
         <Link href="/" className="flex items-center">
-          <img
+          {/* Using next/image to optimize the logo */}
+          <Image
             src="/images/logo.png"
             alt="Cosmetics Store Logo"
+            width={92}
+            height={72}
             className="h-18 w-23 cursor-pointer"
           />
         </Link>

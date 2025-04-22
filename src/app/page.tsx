@@ -1,4 +1,4 @@
-import Categories from '../components/Categories';
+
 import HeroSection from '../components/HeroSection';
 import NewsletterSection from '../components/NewsletterSection';
 import ProductSection from "../components/product/ProductSection";
