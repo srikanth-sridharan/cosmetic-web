@@ -21,12 +21,12 @@ const Categories = ({
   className?: string;
   onSelectCategory?: (category: string) => void;
 }) => {
-  const [isScroll, setIsScroll] = useState(false);
   const [selected, setSelected] = useState("All");
   const scrollRef = useRef<HTMLDivElement | null>(null);
 
   const handleScroll = () => {
-    setIsScroll(window.scrollY > 200);
+    // You can remove this function entirely if it's unused
+    // or leave it empty if you plan to use it later
   };
 
   useEffect(() => {
@@ -78,10 +78,10 @@ const Categories = ({
             <p className="mt-1 text-sm">{category.name}</p>
           </div>
         ))}
-
       </div>
     </div>
   );
 };
+
 
 export default Categories;
