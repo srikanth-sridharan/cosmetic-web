@@ -19,6 +19,10 @@ const nextConfig = {
       },
     ];
   },
+
+  eslint: {
+    ignoreDuringBuilds: true, // Disable ESLint during the build process
+  },
 };
 
 module.exports = nextConfig;

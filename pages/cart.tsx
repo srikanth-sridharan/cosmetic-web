@@ -81,10 +81,15 @@ const CartPage = () => {
     const updatedCart: CartItem[] = cartItems.filter((item) => item.id !== id);
     updateCartStorage(updatedCart);
   };
+  // Define a simple `onSearch` function or pass a real one
+  const handleSearch = (term: string) => {
+    console.log("Search term:", term); // Replace with actual search handling
+  };
+
 
   return (
     <>
-      <ProfileNavbar />
+      <ProfileNavbar onSearch={handleSearch} />
       <div className="min-h-screen bg-gray-100 p-6">
         <h1 className="text-4xl font-bold text-center text-pink-600 mb-10 flex items-center justify-center gap-2">
           <ShoppingBag className="w-8 h-8 text-pink-500" />

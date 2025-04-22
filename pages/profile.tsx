@@ -68,6 +68,11 @@ export default function ProfilePage() {
 
       <HeroSection />
 
+      {/* Display user's name */}
+      <section className="text-center my-8">
+        {userName && <h2 className="text-2xl font-semibold">Welcome, {userName}!</h2>}
+      </section>
+
       <section>
         <h2 className="text-3xl font-bold text-center my-8">Featured Cosmetics</h2>
         <ProductSection products={filteredProducts} />
