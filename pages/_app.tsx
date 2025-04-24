@@ -11,11 +11,18 @@ function AppInitializer() {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    const user = JSON.parse(localStorage.getItem("user") || "null");
-    if (user?.email) {
-      const savedCart = localStorage.getItem(`cart_${user.email}`);
-      if (savedCart) {
-        dispatch(replaceCart(JSON.parse(savedCart)));
+    // Check if running in the browser
+    if (typeof window !== "undefined") {
+      try {
+        const user = JSON.parse(localStorage.getItem("user") || "null");
+        if (user?.email) {
+          const savedCart = localStorage.getItem(`cart_${user.email}`);
+          if (savedCart) {
+            dispatch(replaceCart(JSON.parse(savedCart)));
+          }
+        }
+      } catch (err) {
+        console.error("Error loading user/cart from localStorage:", err);
       }
     }
   }, [dispatch]);
