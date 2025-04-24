@@ -4,14 +4,14 @@ import Image from "next/image";
 import { Product } from "../../types";
 import { useRouter } from "next/navigation";
 import toast from "react-hot-toast";
-import { useDispatch } from "react-redux";
-import { replaceCart } from "../../store/cartSlice";
-
-type CartItem = Product & { quantity: number };
+import { useDispatch, useSelector } from "react-redux";
+import { RootState } from "../../store/store";
+import { addToCart, replaceCart } from "../../store/cartSlice";
 
 export default function ProductCard({ product }: { product: Product }) {
   const router = useRouter();
   const dispatch = useDispatch();
+  const cartItems = useSelector((state: RootState) => state.cart.items);
 
   const handleAddToCart = async () => {
     try {
@@ -26,11 +26,11 @@ export default function ProductCard({ product }: { product: Product }) {
       if (!user?.email) throw new Error("User not found in localStorage");
 
       const cartKey = `cart_${user.email}`;
-      const existingCart: CartItem[] = JSON.parse(localStorage.getItem(cartKey) || "[]");
+      const existingCart: any[] = JSON.parse(localStorage.getItem(cartKey) || "[]");
 
       const existingItemIndex = existingCart.findIndex(item => item.id === product.id);
 
-      let updatedCart: CartItem[];
+      let updatedCart;
 
       if (existingItemIndex !== -1) {
         // ✅ Product exists → increase quantity
@@ -39,7 +39,7 @@ export default function ProductCard({ product }: { product: Product }) {
         toast(`${product.name} quantity increased`, { icon: "➕" });
       } else {
         // ✅ Product doesn't exist → add new item
-        const cartItem: CartItem = { ...product, quantity: 1 };
+        const cartItem = { ...product, quantity: 1 };
         updatedCart = [...existingCart, cartItem];
         toast.success(`${product.name} added to cart`);
       }
@@ -50,8 +50,7 @@ export default function ProductCard({ product }: { product: Product }) {
       dispatch(replaceCart(updatedCart));
       window.dispatchEvent(new Event("cartUpdated"));
     } catch (err) {
-      // We are no longer using '_err', so just log the error
-      console.error("Error adding to cart:", err);
+      toast.error("Please login to add items to your cart.");
       router.push("/login");
     }
   };
