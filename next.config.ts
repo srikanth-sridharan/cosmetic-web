@@ -10,10 +10,8 @@ const nextConfig = {
         source: "/(.*)",
         headers: [
           {
-            key: "Content-Security-Policy",
-            value: isDev
-              ? "script-src 'self' 'unsafe-eval' 'unsafe-inline';"
-              : "script-src 'self' 'unsafe-inline'", // stricter in production
+            key: 'Content-Security-Policy',
+            value: "script-src 'self' 'unsafe-inline'",
           },
         ],
       },
