@@ -3,7 +3,8 @@ import { NextResponse, NextRequest } from 'next/server';
 export function middleware(request: NextRequest) {
   const { pathname } = request.nextUrl;
   const token = request.cookies.get('token')?.value;
-
+  const nonce = crypto.randomUUID().replace(/-/g, ''); // Generate nonce
+  
   // Allow all API routes
   if (pathname.startsWith('/api')) {
     return NextResponse.next();
@@ -12,23 +13,29 @@ export function middleware(request: NextRequest) {
   const isAuthPage = pathname === '/login' || pathname === '/signup';
   const isRootPage = pathname === '/';
 
-  // Redirect logged-in users from public pages
-  if (token) {
-    if (isRootPage || isAuthPage) {
-      return NextResponse.redirect(new URL('/profile', request.url));
-    }
-  }
+  // Create response object for other routes
+  const response = token && (isRootPage || isAuthPage)
+    ? NextResponse.redirect(new URL('/profile', request.url))
+    : pathname.startsWith('/about')
+      ? NextResponse.redirect(new URL('/home', request.url))
+      : NextResponse.next();
 
-  // Custom redirection logic for /about/*
-  if (pathname.startsWith('/about')) {
-    return NextResponse.redirect(new URL('/home', request.url));
-  }
+  // Set CSP header with nonce
+  response.headers.set(
+    'Content-Security-Policy',
+    `script-src 'self' 'nonce-${nonce}';` +
+    `style-src 'self' 'unsafe-inline';` +  // Required for Next.js styles
+    `default-src 'self';` +
+    `base-uri 'self';` +
+    `frame-ancestors 'none';`
+  );
 
-  // Allow all other requests
-  return NextResponse.next();
+  // Add nonce to request headers for pages to consume
+  request.headers.set('x-nonce', nonce);
+
+  return response;
 }
 
-// Apply middleware to specific routes
 export const config = {
   matcher: ['/', '/login', '/signup', '/about/:path*'],
 };
