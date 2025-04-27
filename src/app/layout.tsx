@@ -9,11 +9,13 @@ import "../styles/globals.css";
 import { Toaster } from "react-hot-toast"; 
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
+    const nonce = headers().get('x-nonce');
   return (
     <Provider store={store}>  {/* Wrap your app in the Redux Provider */}
       <html lang="en">
         <head>
           <title>Cosky Cosmo</title>
+          <script nonce={nonce}>/* ... */</script>
           <meta 
             name="description" 
             content="Shop premium cosmetic products online at amazing prices. Find skincare, makeup, and beauty essentials." 
