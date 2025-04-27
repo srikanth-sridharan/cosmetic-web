@@ -13,7 +13,7 @@ const nextConfig = {
             key: "Content-Security-Policy",
             value: isDev
               ? "script-src 'self' 'unsafe-eval' 'unsafe-inline';"
-              : "script-src 'self';", // stricter in production
+              : "script-src 'self' 'unsafe-inline'", // stricter in production
           },
         ],
       },
